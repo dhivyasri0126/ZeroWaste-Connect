@@ -5,18 +5,21 @@ import com.example.zerowaste.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
-public class UserController {
+public class AuthController {
 
     @Autowired
     private UserService service;
 
-    @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return service.getAllUsers();
+    @PostMapping("/register")
+    public String register(@RequestBody User user) {
+        return service.register(user);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        return service.login(user.getEmail(), user.getPassword());
     }
 }

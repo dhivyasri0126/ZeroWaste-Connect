@@ -13,8 +13,11 @@ public class DonationService {
     @Autowired
     private DonationRepository repository;
 
-    public Donation addDonation(Donation donation) {
+    public Donation addDonation(Donation donation, String email) {
+
+        donation.setDonorEmail(email);
         donation.setStatus("AVAILABLE");
+
         return repository.save(donation);
     }
 
@@ -30,7 +33,47 @@ public class DonationService {
         return repository.save(donation);
     }
 
-    public void deleteDonation(Long id) {
-        repository.deleteById(id);
+    public boolean deleteDonation(Long id, String email) {
+
+    Donation donation = repository.findById(id).orElse(null);
+
+    if (donation == null) {
+        return false;
     }
+
+    // Only owner can delete
+    if (!donation.getDonorEmail().equals(email)) {
+        return false;
+    }
+
+    repository.delete(donation);
+
+    return true;
+}
+    public List<Donation> getMyDonations(String email) {
+    return repository.findByDonorEmail(email);
+}
+    public Donation updateDonation(Long id, Donation updatedDonation, String email) {
+
+    Donation donation = repository.findById(id).orElse(null);
+
+    if (donation == null) {
+        return null;
+    }
+
+    // Only the owner can update
+    if (!donation.getDonorEmail().equals(email)) {
+        return null;
+    }
+
+    donation.setDonationType(updatedDonation.getDonationType());
+    donation.setFoodName(updatedDonation.getFoodName());
+    donation.setCategory(updatedDonation.getCategory());
+    donation.setQuantity(updatedDonation.getQuantity());
+    donation.setExpiryTime(updatedDonation.getExpiryTime());
+    donation.setAddress(updatedDonation.getAddress());
+    donation.setDescription(updatedDonation.getDescription());
+
+    return repository.save(donation);
+}
 }

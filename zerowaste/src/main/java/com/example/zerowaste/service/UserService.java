@@ -2,10 +2,15 @@ package com.example.zerowaste.service;
 
 import com.example.zerowaste.entity.User;
 import com.example.zerowaste.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.zerowaste.security.JwtService;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -13,29 +18,39 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public User registerUser(User user) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        User existingUser = repository.findByEmail(user.getEmail());
+    @Autowired
+    private JwtService jwtService;
 
-        if (existingUser != null) {
-            return null;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    // Register User
+    public String register(User user) {
+
+        if (repository.findByEmail(user.getEmail()) != null) {
+            return "Email Already Exists";
         }
 
-        return repository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        repository.save(user);
+
+        return "Registration Successful";
     }
 
-    public User loginUser(String email, String password) {
+    // Login User
+    public String login(String email, String password) {
 
-        User user = repository.findByEmail(email);
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
 
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
+        return jwtService.generateToken(email);
+    }
+        public List<User> getAllUsers() {
+            return repository.findAll();
         }
-
-        return null;
-    }
-
-    public List<User> getAllUsers() {
-        return repository.findAll();
-    }
 }
