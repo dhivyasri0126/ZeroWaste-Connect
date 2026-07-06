@@ -1,6 +1,7 @@
 package com.example.zerowaste.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class DonationRequest {
@@ -16,6 +17,7 @@ public class DonationRequest {
     private String recipientEmail;
 
     private String status;
+    private LocalDateTime requestTime;
 
     public DonationRequest() {
     }
@@ -70,4 +72,11 @@ public class DonationRequest {
     public void setStatus(String status) {
         this.status = status;
     }
+    public LocalDateTime getRequestTime() {
+    return requestTime;
+}
+
+public void setRequestTime(LocalDateTime requestTime) {
+    this.requestTime = requestTime;
+}
 }

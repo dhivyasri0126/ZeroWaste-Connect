@@ -1,23 +1,30 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import DonorDashboard from "./pages/DonorDashboard";
-import RecipientDashboard from "./pages/RecipientDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
+import LoginRegister from "./pages/LoginRegister";
+import Dashboard from "./pages/Dashboard";
+
+import "./App.css";
 
 function App() {
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/donor" element={<DonorDashboard />} />
-        <Route path="/recipient" element={<RecipientDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
-    </BrowserRouter>
+
+    <Routes>
+
+      <Route
+        path="/"
+        element={<LoginRegister />}
+      />
+
+      <Route
+        path="/dashboard"
+        element={<Dashboard />}
+      />
+
+    </Routes>
+
   );
+
 }
 
 export default App;
