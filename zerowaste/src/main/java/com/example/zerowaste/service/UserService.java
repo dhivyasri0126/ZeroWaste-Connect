@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.zerowaste.util.EmailTemplate;
 
 @Service
 public class UserService {
@@ -27,19 +28,32 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private EmailService emailService;
+
     // Register User
-    public String register(User user) {
+  public String register(User user) {
 
-        if (repository.findByEmail(user.getEmail()) != null) {
-            return "Email Already Exists";
-        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        repository.save(user);
-
-        return "Registration Successful";
+    if (repository.findByEmail(user.getEmail()) != null) {
+        return "Email Already Exists";
     }
+
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+    repository.save(user);
+   String html = EmailTemplate.welcomeEmail(
+        user.getName(),
+        user.getEmail()
+);
+
+emailService.sendHtmlEmail(
+        user.getEmail(),
+        "🎉 Welcome to ZeroWaste Connect",
+        html
+);
+
+    return "Registration Successful";
+}
 
     // Login User
     public String login(String email, String password) {

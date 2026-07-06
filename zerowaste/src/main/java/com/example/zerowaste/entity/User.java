@@ -2,7 +2,9 @@ package com.example.zerowaste.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.util.Collection;
 import java.util.Collections;
@@ -103,10 +105,13 @@ public class User implements UserDetails {
 
     // ---------- UserDetails ----------
 
-    @Override
+   @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
+
+    return Collections.singletonList(
+            new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
+    );
+}
 
     @Override
     public String getUsername() {

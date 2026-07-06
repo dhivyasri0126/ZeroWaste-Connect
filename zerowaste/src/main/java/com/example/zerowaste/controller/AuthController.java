@@ -1,6 +1,7 @@
 package com.example.zerowaste.controller;
 
 import com.example.zerowaste.entity.User;
+import com.example.zerowaste.service.EmailService;
 import com.example.zerowaste.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,4 +23,26 @@ public class AuthController {
     public String login(@RequestBody User user) {
         return service.login(user.getEmail(), user.getPassword());
     }
+    @Autowired
+private EmailService emailService;
+@GetMapping("/testmail")
+public String testMail() {
+
+    String html = """
+    <html>
+    <body>
+        <h2 style="color:green;">ZeroWaste Connect</h2>
+        <p>Your HTML Email API is working successfully.</p>
+    </body>
+    </html>
+    """;
+
+    emailService.sendHtmlEmail(
+            "zerowasteconnect.project@gmail.com",
+            "ZeroWaste Connect",
+            html
+    );
+
+    return "Email Sent Successfully";
+}
 }

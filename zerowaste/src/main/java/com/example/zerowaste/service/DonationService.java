@@ -76,4 +76,7 @@ public class DonationService {
 
     return repository.save(donation);
 }
+public List<Donation> getDonationHistory(String email) {
+    return repository.findByDonorEmailAndStatus(email, "COMPLETED");
+}
 }

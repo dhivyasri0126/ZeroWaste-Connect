@@ -46,4 +46,98 @@ public class DonationRequestService {
     public List<DonationRequest> getReceivedRequests(String donorEmail) {
         return requestRepository.findByDonorEmail(donorEmail);
     }
+    // Donor accepts a request
+    public DonationRequest acceptRequest(Long requestId, String donorEmail) {
+
+    DonationRequest request = requestRepository.findById(requestId).orElse(null);
+
+    if (request == null) {
+        return null;
+    }
+
+    // Only the donor can accept
+    if (!request.getDonorEmail().equals(donorEmail)) {
+        return null;
+    }
+
+    // Mark donation as unavailable
+    Donation donation = donationRepository.findById(request.getDonationId()).orElse(null);
+
+    if (donation != null) {
+        donation.setStatus("UNAVAILABLE");
+        donationRepository.save(donation);
+    }
+
+    // Get all requests for this donation
+    List<DonationRequest> requests =
+            requestRepository.findByDonationId(request.getDonationId());
+
+    // Accept one, reject the rest
+    for (DonationRequest r : requests) {
+
+        if (r.getId().equals(requestId)) {
+            r.setStatus("ACCEPTED");
+        } else if (r.getStatus().equals("PENDING")) {
+            r.setStatus("REJECTED");
+        }
+
+        requestRepository.save(r);
+    }
+
+    return requestRepository.findById(requestId).orElse(null);
+}
+
+// Donor rejects a request
+public DonationRequest rejectRequest(Long requestId, String donorEmail) {
+
+    DonationRequest request = requestRepository.findById(requestId).orElse(null);
+
+    if (request == null) {
+        return null;
+    }
+
+    // Only donor can reject
+    if (!request.getDonorEmail().equals(donorEmail)) {
+        return null;
+    }
+
+    request.setStatus("REJECTED");
+
+    return requestRepository.save(request);
+}
+        // Recipient confirms pickup
+public DonationRequest completeRequest(Long requestId, String recipientEmail) {
+
+    DonationRequest request =
+            requestRepository.findById(requestId).orElse(null);
+
+    if (request == null) {
+        return null;
+    }
+
+    // Only accepted recipient can complete
+    if (!request.getRecipientEmail().equals(recipientEmail)) {
+        return null;
+    }
+
+    if (!request.getStatus().equals("ACCEPTED")) {
+        return null;
+    }
+
+    request.setStatus("COMPLETED");
+
+    requestRepository.save(request);
+
+    Donation donation =
+            donationRepository.findById(request.getDonationId()).orElse(null);
+
+    if (donation != null) {
+
+        donation.setStatus("COMPLETED");
+
+        donationRepository.save(donation);
+    }
+
+    return request;
+}
 }

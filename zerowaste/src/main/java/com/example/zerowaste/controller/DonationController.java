@@ -20,6 +20,8 @@ public class DonationController {
     @PostMapping("/add")
     public Donation addDonation(@RequestBody Donation donation,
                                 Authentication authentication) {
+                                       System.out.println(authentication.getName());
+    System.out.println(authentication.getAuthorities());
 
         String email = authentication.getName();
 
@@ -59,4 +61,23 @@ public class DonationController {
 
                 return "You are not authorized to delete this donation";
         }
+        @GetMapping("/test")
+        public String test() {
+            return "Donation Controller Working";
+        }
+                // @GetMapping("/history")
+        // public List<Donation> donationHistory(
+        //         Authentication authentication) {
+
+        //     String email = authentication.getName();
+
+        //     return service.getDonationHistory(email);
+        // }
+      @GetMapping("/history")
+    public List<Donation> donationHistory(Authentication authentication) {
+
+    String email = authentication.getName();
+
+    return service.getDonationHistory(email);
+}
 }

@@ -1,12 +1,10 @@
 package com.example.zerowaste.config;
 
-import com.example.zerowaste.security.CustomUserDetailsService;
 import com.example.zerowaste.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,24 +17,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    private JwtAuthenticationFilter jwtFilter;
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+        http
+                .csrf(csrf -> csrf.disable())
 
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
-        return provider;
+                .authorizeHttpRequests(auth -> auth
+
+                        // Public APIs
+                        .requestMatchers("/auth/**").permitAll()
+
+                        // All Donation APIs
+                        .requestMatchers("/donation/**").authenticated()
+
+                        // All Request APIs
+                        .requestMatchers("/request/**").authenticated()
+
+                        // Any other API
+                        .anyRequest().authenticated()
+                )
+
+                .addFilterBefore(jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class);
+
+        return http.build(); 
     }
 
     @Bean
@@ -47,25 +58,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http
-                .csrf(csrf -> csrf.disable())
-
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-
-                .authenticationProvider(authenticationProvider())
-
-                .addFilterBefore(jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

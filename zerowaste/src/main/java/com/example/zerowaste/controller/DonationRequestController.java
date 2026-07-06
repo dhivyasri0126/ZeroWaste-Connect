@@ -43,4 +43,34 @@ public class DonationRequestController {
 
         return service.getReceivedRequests(donorEmail);
     }
+    // Donor accepts request
+@PutMapping("/accept/{requestId}")
+public DonationRequest acceptRequest(@PathVariable Long requestId,
+                                     Authentication authentication) {
+
+    String donorEmail = authentication.getName();
+
+    return service.acceptRequest(requestId, donorEmail);
+}
+
+
+// Donor rejects request
+@PutMapping("/reject/{requestId}")
+public DonationRequest rejectRequest(@PathVariable Long requestId,
+                                     Authentication authentication) {
+
+    String donorEmail = authentication.getName();
+
+    return service.rejectRequest(requestId, donorEmail);
+}
+// Recipient confirms pickup
+@PutMapping("/complete/{requestId}")
+public DonationRequest completeRequest(
+        @PathVariable Long requestId,
+        Authentication authentication) {
+
+    String recipientEmail = authentication.getName();
+
+    return service.completeRequest(requestId, recipientEmail);
+}
 }
