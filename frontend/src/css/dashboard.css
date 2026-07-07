@@ -1,0 +1,229 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard{
+    width:100%;
+    min-height:100vh;
+    background:#f4f7fb;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    height:70px;
+    background:#ffffff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.nav-left{
+    display:flex;
+    align-items:center;
+   
+    gap:18px;
+}
+
+.nav-left h2{
+    color:#16a34a;
+    font-size:28px;
+    font-weight:700;
+}
+
+.menu-btn{
+    font-size:28px;
+    color:#16a34a;
+    cursor:pointer;
+}
+
+/* Logout */
+
+.logout-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:10px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    background:#15803d;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    display:flex;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:250px;
+    background:white;
+    margin-top: 200px;
+    min-height:calc(100vh - 70px);
+    box-shadow:3px 0 10px rgba(0,0,0,.08);
+    transition:.4s;
+}
+
+.sidebar ul{
+    list-style:none;
+    margin-top:20px;
+}
+
+.sidebar li{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:18px 25px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:17px;
+    color:#444;
+}
+
+.sidebar li:hover{
+    background:#16a34a;
+    color:white;
+}
+
+.icon{
+    font-size:22px;
+}
+
+/* Hide Sidebar */
+
+.sidebar:not(.active){
+    width:75px;
+}
+
+.sidebar:not(.active) span{
+    display:none;
+}
+
+.sidebar:not(.active) li{
+    justify-content:center;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    flex:1;
+    padding:30px;
+    margin-top: 250px;
+}
+
+/* ================= TOP CARDS ================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.summary-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.summary-card h4{
+    color:#666;
+    margin-bottom:15px;
+    font-size:18px;
+}
+
+.summary-card h2{
+    color:#16a34a;
+    font-size:42px;
+}
+
+/* ================= CHART ================= */
+
+.chart-box{
+    background:white;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    margin-bottom:30px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:430px;
+}
+
+/* ================= TABLE ================= */
+
+.table-box{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.table-box h2{
+    color:#16a34a;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#16a34a;
+    color:white;
+    padding:15px;
+    text-align:left;
+}
+
+table td{
+    padding:14px;
+    border-bottom:1px solid #ececec;
+}
+
+table tr:hover{
+    background:#f8f8f8;
+}
+
+/* ================= DONATION CARDS ================= */
+
+.card-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 ;
+}

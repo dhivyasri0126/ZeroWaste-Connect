@@ -1,205 +1,260 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/dashboard.css";
+import DashboardHome from "./DashboardHome";
+import Profile from "./Profile";
 
-function Register() {
+import {
+  FaBars,
+  FaUserCircle,
+  FaGift,
+  FaPlusCircle,
+  FaBoxOpen,
+  FaInbox,
+  FaHistory,
+  FaSignOutAlt
+} from "react-icons/fa";
+
+import { MdDashboard } from "react-icons/md";
+import { HiClipboardDocumentList } from "react-icons/hi2";
+
+export default function Dashboard() {
 
     const navigate = useNavigate();
 
-    const [user, setUser] = useState({
+    const [menuOpen, setMenuOpen] = useState(false);
 
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-        password: "",
-        role: "RECIPIENT"
+    const [page, setPage] = useState("dashboard");
 
-    });
+    const [donations, setDonations] = useState([]);
 
-    const register = async (e) => {
+    useEffect(() => {
+        loadDonations();
+    }, []);
 
-        e.preventDefault();
+    async function loadDonations() {
 
-        const response = await fetch("http://localhost:8081/auth/register", {
+        try {
 
-            method: "POST",
+            const token = localStorage.getItem("token");
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            if (!token) {
+                navigate("/");
+                return;
+            }
 
-            body: JSON.stringify(user)
+            const response = await fetch(
+                "http://localhost:8081/donation/all",
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
 
-        });
+            if (!response.ok) {
+                throw new Error("Unable to fetch donations");
+            }
 
-        const result = await response.text();
+            const data = await response.json();
 
-        alert(result);
+            setDonations(data);
 
-        if (result === "Registration Successful") {
+        } catch (err) {
 
-            navigate("/");
+            console.log(err);
+
+            alert("Unable to connect to server");
 
         }
 
-    };
+    }
+
+    function logout() {
+
+        localStorage.clear();
+
+        navigate("/");
+
+    }
 
     return (
 
-<div
-className="container-fluid d-flex justify-content-center align-items-center"
-style={{
-minHeight:"100vh",
-background:"linear-gradient(to right,#56ab2f,#a8e063)"
-}}
->
+<div className="dashboard">
 
-<div className="card shadow-lg border-0" style={{width:"650px",borderRadius:"20px"}}>
+{/* ================= NAVBAR ================= */}
 
-<div
-className="card-header text-center text-white"
-style={{
-background:"#198754",
-borderTopLeftRadius:"20px",
-borderTopRightRadius:"20px"
-}}
->
+<nav className="navbar">
+
+<div className="nav-left">
+
+<FaBars
+className="menu-btn"
+onClick={() => setMenuOpen(!menuOpen)}
+/>
 
 <h2>🌱 ZeroWaste Connect</h2>
 
-<p className="mb-0">
-Create your account
-</p>
-
 </div>
 
-<div className="card-body p-4">
+<button className="logout-btn" onClick={logout}>
 
-<form onSubmit={register}>
+<FaSignOutAlt />
 
-<div className="row">
-
-<div className="col-md-6 mb-3">
-
-<label>Name</label>
-
-<input
-type="text"
-className="form-control"
-placeholder="Enter Full Name"
-required
-onChange={(e)=>setUser({...user,name:e.target.value})}
-/>
-
-</div>
-
-<div className="col-md-6 mb-3">
-
-<label>Email</label>
-
-<input
-type="email"
-className="form-control"
-placeholder="Enter Email"
-required
-onChange={(e)=>setUser({...user,email:e.target.value})}
-/>
-
-</div>
-
-</div>
-
-<div className="row">
-
-<div className="col-md-6 mb-3">
-
-<label>Phone Number</label>
-
-<input
-type="tel"
-className="form-control"
-placeholder="9876543210"
-required
-onChange={(e)=>setUser({...user,phone:e.target.value})}
-/>
-
-</div>
-
-<div className="col-md-6 mb-3">
-
-<label>Role</label>
-
-<select
-className="form-select"
-onChange={(e)=>setUser({...user,role:e.target.value})}
->
-
-<option value="DONOR">Donor</option>
-
-<option value="RECIPIENT">Recipient</option>
-
-</select>
-
-</div>
-
-</div>
-
-<div className="mb-3">
-
-<label>Address</label>
-
-<textarea
-rows="3"
-className="form-control"
-placeholder="Enter Complete Address"
-required
-onChange={(e)=>setUser({...user,address:e.target.value})}
->
-
-</textarea>
-
-</div>
-
-<div className="mb-4">
-
-<label>Password</label>
-
-<input
-type="password"
-className="form-control"
-placeholder="Create Password"
-required
-onChange={(e)=>setUser({...user,password:e.target.value})}
-/>
-
-</div>
-
-<button
-className="btn btn-success w-100 py-2"
->
-
-Create Account
+Logout
 
 </button>
 
-</form>
+</nav>
 
-<hr/>
+{/* ================= MAIN ================= */}
 
-<p className="text-center">
+<div className="main">
 
-Already have an account?
+{/* ================= SIDEBAR ================= */}
 
-</p>
+<div className={menuOpen ? "sidebar active" : "sidebar"}>
 
-<Link
-to="/"
-className="btn btn-outline-success w-100"
->
+<ul>
 
-Login
+<li onClick={() => {setPage("dashboard"); setMenuOpen(false)}}>
 
-</Link>
+<MdDashboard className="icon"/>
+
+<span>Dashboard</span>
+
+</li>
+
+<li onClick={() => {setPage("profile"); setMenuOpen(false)}}>
+
+<FaUserCircle className="icon"/>
+
+<span>My Profile</span>
+
+</li>
+
+<li onClick={() => {setPage("available"); setMenuOpen(false)}}>
+
+<FaGift className="icon"/>
+
+<span>Available Donations</span>
+
+</li>
+
+<li onClick={() => {setPage("add"); setMenuOpen(false)}}>
+
+<FaPlusCircle className="icon"/>
+
+<span>Add Donation</span>
+
+</li>
+
+<li onClick={() => {setPage("mydonations"); setMenuOpen(false)}}>
+
+<FaBoxOpen className="icon"/>
+
+<span>My Donations</span>
+
+</li>
+
+<li onClick={() => {setPage("requests"); setMenuOpen(false)}}>
+
+<FaInbox className="icon"/>
+
+<span>My Requests</span>
+
+</li>
+
+<li onClick={() => {setPage("received"); setMenuOpen(false)}}>
+
+<HiClipboardDocumentList className="icon"/>
+
+<span>Received Requests</span>
+
+</li>
+
+<li onClick={() => {setPage("history"); setMenuOpen(false)}}>
+
+<FaHistory className="icon"/>
+
+<span>Donation History</span>
+
+</li>
+
+</ul>
+
+</div>
+
+{/* ================= CONTENT ================= */}
+
+<div className="content">
+
+{/* Dashboard */}
+{page==="dashboard" && <DashboardHome/>}
+
+{/* Profile */}
+
+{page==="profile" &&(
+
+<div className="profile-card">
+
+<h2>👤 My Profile</h2>
+
+<p>Profile details will appear here.</p>
+
+</div>
+
+)}
+
+{/* Available Donations */}
+
+{page==="available" &&(
+
+<>
+
+<h2>Available Donations</h2>
+
+<div className="card-container">
+
+{donations.map(item=>(
+
+<div className="card" key={item.id}>
+
+<h3>{item.foodName}</h3>
+
+<p><b>Category:</b> {item.category}</p>
+
+<p><b>Quantity:</b> {item.quantity}</p>
+
+<p><b>Address:</b> {item.address}</p>
+
+<p><b>Status:</b> {item.status}</p>
+
+<button>Request Food</button>
+
+</div>
+
+))}
+
+</div>
+
+</>
+
+)}
+
+{/* Other Pages */}
+
+{page==="add" && <h2>Add Donation</h2>}
+
+{page==="mydonations" && <h2>My Donations</h2>}
+
+{page==="requests" && <h2>My Requests</h2>}
+
+{page==="received" && <h2>Received Requests</h2>}
+
+{page==="history" && <h2>Donation History</h2>}
 
 </div>
 
@@ -210,5 +265,3 @@ Login
     );
 
 }
-
-export default Register;

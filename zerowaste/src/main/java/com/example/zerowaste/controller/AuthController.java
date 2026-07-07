@@ -1,9 +1,11 @@
 package com.example.zerowaste.controller;
 
 import com.example.zerowaste.entity.User;
+import com.example.zerowaste.repository.UserRepository;
 import com.example.zerowaste.service.EmailService;
 import com.example.zerowaste.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +15,8 @@ public class AuthController {
 
     @Autowired
     private UserService service;
+    @Autowired
+private UserRepository repository;
 
     @PostMapping("/register")
     public String register(@RequestBody User user) {
@@ -44,5 +48,13 @@ public String testMail() {
     );
 
     return "Email Sent Successfully";
+}
+@GetMapping("/profile")
+public User profile(Authentication authentication){
+
+    String email=authentication.getName();
+
+    return repository.findByEmail(email);
+
 }
 }

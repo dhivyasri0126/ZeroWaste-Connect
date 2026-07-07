@@ -3,27 +3,19 @@ import { Routes, Route } from "react-router-dom";
 import LoginRegister from "./pages/LoginRegister";
 import Dashboard from "./pages/Dashboard";
 
-import "./App.css";
+function App(){
 
-function App() {
+return(
 
-  return (
+<Routes>
 
-    <Routes>
+<Route path="/"element={<LoginRegister/>}/>
 
-      <Route
-        path="/"
-        element={<LoginRegister />}
-      />
+<Route path="/dashboard" element={<Dashboard/>}/>
 
-      <Route
-        path="/dashboard"
-        element={<Dashboard />}
-      />
+</Routes>
 
-    </Routes>
-
-  );
+);
 
 }
 
