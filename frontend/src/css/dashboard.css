@@ -20,16 +20,24 @@ body{
 /* ================= NAVBAR ================= */
 
 .navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+
     height:70px;
+
     background:#ffffff;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:0 30px;
-    box-shadow:0 3px 15px rgba(0,0,0,.08);
-    position:sticky;
-    top:0;
-    z-index:100;
+
+    padding:0 35px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+
+    z-index:1000;
 }
 
 .nav-left{
@@ -74,44 +82,81 @@ body{
 
 .main{
     display:flex;
+    margin-top:250px;
+    min-height:calc(100vh - 70px);
 }
 
 /* ================= SIDEBAR ================= */
-
 .sidebar{
+
+    position:fixed;
+
+    top:70px;
+
+    left:0;
+
     width:250px;
-    background:white;
-    margin-top: 200px;
-    min-height:calc(100vh - 70px);
-    box-shadow:3px 0 10px rgba(0,0,0,.08);
-    transition:.4s;
+
+    height:calc(100vh - 70px);
+
+    background:#fff;
+
+    box-shadow:2px 0 12px rgba(0,0,0,.08);
+
+    overflow-y:auto;
+
+    transition:.3s;
+
+    z-index:999;
+
+    transform:translateX(-100%);
 }
 
-.sidebar ul{
+.sidebar.active{
+
+    transform:translateX(0);
+
+}.sidebar ul{
+
     list-style:none;
-    margin-top:20px;
+
+    padding:20px 0;
+
 }
 
 .sidebar li{
+
     display:flex;
+
     align-items:center;
+
     gap:15px;
-    padding:18px 25px;
+
+    padding:16px 25px;
+
     cursor:pointer;
+
+    color:#555;
+
     transition:.3s;
-    font-size:17px;
-    color:#444;
+
+    font-size:16px;
+
 }
 
 .sidebar li:hover{
+
     background:#16a34a;
-    color:white;
+
+    color:#fff;
+
 }
 
 .icon{
-    font-size:22px;
-}
 
+    font-size:22px;
+
+}
 /* Hide Sidebar */
 
 .sidebar:not(.active){
@@ -129,9 +174,22 @@ body{
 /* ================= CONTENT ================= */
 
 .content{
+
     flex:1;
-    padding:30px;
-    margin-top: 250px;
+
+    width:100%;
+
+    padding:10px 30px;
+
+    margin-left:0;
+
+
+    transition:.3s;
+
+    background:#f4f7fb;
+
+    min-height:calc(100vh - 70px);
+
 }
 
 /* ================= TOP CARDS ================= */
@@ -214,16 +272,122 @@ table tr:hover{
 }
 
 /* ================= DONATION CARDS ================= */
-
 .card-container{
+
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+
     gap:25px;
+
+    margin-top:25px;
+
 }
 
 .card{
-    background:white;
+
+    background:#fff;
+
     border-radius:15px;
-    padding:20px;
-    box-shadow:0 ;
+
+    padding:22px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.card h3{
+
+    color:#16a34a;
+
+    margin-bottom:10px;
+
+}
+
+.card p{
+
+    margin:8px 0;
+
+}
+
+.card button{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#16a34a;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+.sidebar.active + .content{
+
+    margin-left:250px;
+
+}
+@media(max-width:900px){
+
+    .navbar{
+
+        padding:0 20px;
+
+    }
+
+    .nav-left h2{
+
+        font-size:22px;
+
+    }
+
+    .content{
+
+        padding:20px;
+
+    }
+
+    .summary{
+
+        grid-template-columns:1fr 1fr;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .content{
+
+        padding:15px;
+
+    }
+
+    .navbar{
+
+        height:65px;
+
+    }
+
+    .sidebar{
+
+        top:65px;
+
+        height:calc(100vh - 65px);
+
+    }
+
 }

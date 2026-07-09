@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "../css/dashboard.css";
 import DashboardHome from "./DashboardHome";
 import Profile from "./Profile";
+import AddDonation from "./AddDonation";
+import MyDonations from "./MyDonations";
+import MyRequests from "./MyRequests";
 
 import {
   FaBars,
@@ -151,7 +154,7 @@ Logout
 
 </li>
 
-<li onClick={() => {setPage("mydonations"); setMenuOpen(false)}}>
+<li onClick={() => {setPage("mydonation"); setMenuOpen(false)}}>
 
 <FaBoxOpen className="icon"/>
 
@@ -246,11 +249,11 @@ Logout
 
 {/* Other Pages */}
 
-{page==="add" && <h2>Add Donation</h2>}
+{page==="add" && <AddDonation />}
 
-{page==="mydonations" && <h2>My Donations</h2>}
+{page==="mydonation" && <MyDonations />}
 
-{page==="requests" && <h2>My Requests</h2>}
+{page==="requests" && <MyRequests/>}
 
 {page==="received" && <h2>Received Requests</h2>}
 
