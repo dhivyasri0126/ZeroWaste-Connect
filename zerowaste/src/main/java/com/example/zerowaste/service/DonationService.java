@@ -4,6 +4,7 @@ import com.example.zerowaste.entity.Donation;
 import com.example.zerowaste.repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.zerowaste.dto.DashboardStats;
 
 import java.util.List;
 
@@ -78,5 +79,20 @@ public class DonationService {
 }
 public List<Donation> getDonationHistory(String email) {
     return repository.findByDonorEmailAndStatus(email, "COMPLETED");
+}
+public DashboardStats getDashboardStats(String email){
+
+    long total = repository.countByDonorEmail(email);
+
+    long available = repository.countByDonorEmailAndStatus(email,"AVAILABLE");
+
+    long completed = repository.countByDonorEmailAndStatus(email,"COMPLETED");
+
+    return new DashboardStats(
+            total,
+            available,
+            completed
+    );
+
 }
 }

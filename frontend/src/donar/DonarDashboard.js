@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/dashboard.css";
-import DashboardHome from "./DashboardHome";
+import DashboardHome from "../donar/DashboardHome";
 import Profile from "./Profile";
 import AddDonation from "./AddDonation";
-import MyDonations from "./MyDonations";
-import MyRequests from "./MyRequests";
+import MyDonations from "../pages/MyDonations";
+// import MyRequests from "../pages/MyRequests";
+import DonationHistory from "../donar/DonationHistory";
+import ReceivedRequest from "../donar/ReceivedRequest";
+import Settings from "./Settings";
 
 import {
-  FaBars,
+  FaBars,FaCog,
   FaUserCircle,
   FaGift,
   FaPlusCircle,
@@ -21,10 +24,10 @@ import {
 import { MdDashboard } from "react-icons/md";
 import { HiClipboardDocumentList } from "react-icons/hi2";
 
-export default function Dashboard() {
+export default function DonarDashboard() {
 
     const navigate = useNavigate();
-
+    const [requests,setRequests] =useState("");
     const [menuOpen, setMenuOpen] = useState(false);
 
     const [page, setPage] = useState("dashboard");
@@ -60,8 +63,11 @@ export default function Dashboard() {
             if (!response.ok) {
                 throw new Error("Unable to fetch donations");
             }
+const data = await response.json();
 
-            const data = await response.json();
+console.log("Received Requests API Response:", data);
+
+setRequests(data);
 
             setDonations(data);
 
@@ -123,66 +129,39 @@ Logout
 <ul>
 
 <li onClick={() => {setPage("dashboard"); setMenuOpen(false)}}>
-
-<MdDashboard className="icon"/>
-
-<span>Dashboard</span>
-
+    <MdDashboard className="icon"/>
+    <span>Dashboard</span>
 </li>
 
 <li onClick={() => {setPage("profile"); setMenuOpen(false)}}>
-
-<FaUserCircle className="icon"/>
-
-<span>My Profile</span>
-
-</li>
-
-<li onClick={() => {setPage("available"); setMenuOpen(false)}}>
-
-<FaGift className="icon"/>
-
-<span>Available Donations</span>
-
+    <FaUserCircle className="icon"/>
+    <span>My Profile</span>
 </li>
 
 <li onClick={() => {setPage("add"); setMenuOpen(false)}}>
-
-<FaPlusCircle className="icon"/>
-
-<span>Add Donation</span>
-
+    <FaPlusCircle className="icon"/>
+    <span>Add Donation</span>
 </li>
 
-<li onClick={() => {setPage("mydonation"); setMenuOpen(false)}}>
-
-<FaBoxOpen className="icon"/>
-
-<span>My Donations</span>
-
-</li>
-
-<li onClick={() => {setPage("requests"); setMenuOpen(false)}}>
-
-<FaInbox className="icon"/>
-
-<span>My Requests</span>
-
+<li onClick={() => {setPage("mydonations"); setMenuOpen(false)}}>
+    <FaBoxOpen className="icon"/>
+    <span>My Donations</span>
 </li>
 
 <li onClick={() => {setPage("received"); setMenuOpen(false)}}>
-
-<HiClipboardDocumentList className="icon"/>
-
-<span>Received Requests</span>
-
+    <HiClipboardDocumentList className="icon"/>
+    <span>Received Requests</span>
 </li>
 
 <li onClick={() => {setPage("history"); setMenuOpen(false)}}>
+    <FaHistory className="icon"/>
+    <span>Donation History</span>
+</li>
+<li onClick={()=>{setPage("settings");setMenuOpen(false)}}>
 
-<FaHistory className="icon"/>
+<FaCog className="icon"/>
 
-<span>Donation History</span>
+<span>Settings</span>
 
 </li>
 
@@ -194,12 +173,12 @@ Logout
 
 <div className="content">
 
-{/* Dashboard */}
-{page==="dashboard" && <DashboardHome/>}
+{/* Dashboard
+{page==="dashboard" && <DashboardHome/>} */}
 
 {/* Profile */}
 
-{page==="profile" &&(
+{/* {page==="profile" &&(
 
 <div className="profile-card">
 
@@ -209,7 +188,7 @@ Logout
 
 </div>
 
-)}
+)} */}
 
 {/* Available Donations */}
 
@@ -248,16 +227,19 @@ Logout
 )}
 
 {/* Other Pages */}
+{page==="dashboard" && <DashboardHome />}
+
+{page==="profile" && <Profile />}
 
 {page==="add" && <AddDonation />}
 
-{page==="mydonation" && <MyDonations />}
+{page==="mydonations" && <MyDonations />}
 
-{page==="requests" && <MyRequests/>}
+{page==="received" && <ReceivedRequest />}
 
-{page==="received" && <h2>Received Requests</h2>}
+{page==="history" && <DonationHistory />} 
 
-{page==="history" && <h2>Donation History</h2>}
+{page==="settings" && <Settings/>}
 
 </div>
 

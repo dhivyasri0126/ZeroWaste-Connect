@@ -10,7 +10,7 @@ import com.example.zerowaste.entity.Donation;
 import com.example.zerowaste.repository.DonationRepository;
 @RestController
 @RequestMapping("/dashboard")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001","http://127.0.0.1:3000","http://127.0.0.1:3001"})
 public class DashboardController {
 
     @Autowired

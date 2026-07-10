@@ -25,17 +25,20 @@ export default function LoginRegister() {
         role: "RECIPIENT"
     });
 
-    // Login
-    const loginUser = async (e) => {
+   // ================= LOGIN =================
 
-        e.preventDefault();
+const loginUser = async (e) => {
+
+    e.preventDefault();
+
+    try {
 
         const response = await fetch(
             "http://localhost:8081/auth/login",
             {
                 method: "POST",
                 headers: {
-                    "Content-Type":"application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(login)
             }
@@ -43,59 +46,104 @@ export default function LoginRegister() {
 
         const token = await response.text();
 
-        if(response.ok){
-
-            localStorage.setItem("token",token);
-
-            alert("Login Successful");
-
-            navigate("/dashboard");
-
-        }
-
-        else{
-
+        if (!response.ok) {
             alert(token);
+            return;
+        }
+
+        // Save JWT Token
+        localStorage.setItem("token", token);
+
+        // Get Logged-in User Profile
+        const profileResponse = await fetch(
+            "http://localhost:8081/auth/profile",
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!profileResponse.ok) {
+            alert("Unable to fetch profile");
+            return;
+        }
+
+        const user = await profileResponse.json();
+
+        // Save User Details
+        localStorage.setItem("user", JSON.stringify(user));
+
+        alert("Login Successful");
+
+        // Navigate Based on Role
+        if (user.role === "DONOR") {
+
+            navigate("/donor");
+
+        }
+        else if (user.role === "RECIPIENT") {
+
+            navigate("/recipient");
+
+        }
+        else {
+
+            alert("Invalid User Role");
 
         }
 
-    };
+    }
+    catch (err) {
 
-    // Register
+        console.error(err);
 
-    const registerUser = async(e)=>{
+        alert("Unable to connect to server.");
 
-        e.preventDefault();
+    }
+
+};
+
+// ================= REGISTER =================
+
+const registerUser = async (e) => {
+
+    e.preventDefault();
+
+    try {
 
         const response = await fetch(
-
             "http://localhost:8081/auth/register",
-
             {
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json"
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-
-                body:JSON.stringify(register)
-
+                body: JSON.stringify(register)
             }
-
         );
 
         const result = await response.text();
 
         alert(result);
 
-        if(result==="Registration Successful"){
+        if (result === "Registration Successful") {
 
             setActive(false);
 
         }
 
     }
+    catch (err) {
+
+        console.error(err);
+
+        alert("Unable to connect to server.");
+
+    }
+
+};
 
     return(
 

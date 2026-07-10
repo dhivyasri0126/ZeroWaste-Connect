@@ -51,14 +51,21 @@ private EmailService emailService;
         if (existing != null) {
             return null;
         }
+DonationRequest request = new DonationRequest();
 
-        DonationRequest request = new DonationRequest();
+request.setDonationId(donation.getId());
+request.setDonorEmail(donation.getDonorEmail());
+request.setRecipientEmail(recipientEmail);
 
-        request.setDonationId(donationId);
-        request.setDonorEmail(donation.getDonorEmail());
-        request.setRecipientEmail(recipientEmail);
-        request.setStatus("PENDING");
-        request.setRequestTime(LocalDateTime.now());
+// Copy donation details
+request.setFoodName(donation.getFoodName());
+request.setCategory(donation.getCategory());
+request.setQuantity(donation.getQuantity());
+request.setAddress(donation.getAddress());
+
+request.setStatus("PENDING");
+request.setRequestTime(LocalDateTime.now());
+
         String subject = "📩 New Donation Request | ZeroWaste Connect";
 String html = String.format("""
 <!DOCTYPE html>

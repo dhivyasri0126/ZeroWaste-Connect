@@ -5,6 +5,7 @@ import com.example.zerowaste.service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import com.example.zerowaste.dto.DashboardStats;
 
 import java.util.List;
 
@@ -65,6 +66,14 @@ public class DonationController {
         public String test() {
             return "Donation Controller Working";
         }
+        @GetMapping("/stats")
+public DashboardStats dashboardStats(Authentication authentication){
+
+    String email = authentication.getName();
+
+    return service.getDashboardStats(email);
+
+}
                 // @GetMapping("/history")
         // public List<Donation> donationHistory(
         //         Authentication authentication) {
@@ -80,4 +89,5 @@ public class DonationController {
 
     return service.getDonationHistory(email);
 }
+
 }

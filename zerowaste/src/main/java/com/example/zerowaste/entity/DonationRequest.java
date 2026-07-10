@@ -18,6 +18,13 @@ public class DonationRequest {
 
     private String status;
     private LocalDateTime requestTime;
+    private String foodName;
+
+private String category;
+
+private String quantity;
+
+private String address;
 
     public DonationRequest() {
     }
@@ -78,5 +85,36 @@ public class DonationRequest {
 
 public void setRequestTime(LocalDateTime requestTime) {
     this.requestTime = requestTime;
+}
+public String getFoodName() {
+    return foodName;
+}
+
+public void setFoodName(String foodName) {
+    this.foodName = foodName;
+}
+
+public String getCategory() {
+    return category;
+}
+
+public void setCategory(String category) {
+    this.category = category;
+}
+
+public String getQuantity() {
+    return quantity;
+}
+
+public void setQuantity(String quantity) {
+    this.quantity = quantity;
+}
+
+public String getAddress() {
+    return address;
+}
+
+public void setAddress(String address) {
+    this.address = address;
 }
 }

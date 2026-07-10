@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../css/profile.css";
+import { FaUserEdit, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
 
     const [user, setUser] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadProfile();
@@ -36,8 +39,14 @@ export default function Profile() {
             console.log(error);
         }
     }
+    function logout(){
 
-    return (
+    localStorage.clear();
+
+    navigate("/");
+
+}
+return (
 
 <div className="profile-container">
 
@@ -70,10 +79,43 @@ export default function Profile() {
 <p>{user.role}</p>
 </div>
 
+<button className="profile-btn edit-btn">
+
+<FaUserEdit />
+
+Edit Profile
+
+</button>
+
+<hr/>
+
+<div className="profile-menu">
+
+<div className="menu-item">
+
+<FaCog className="menu-icon"/>
+
+<span>Settings</span>
+
+</div>
+
+<div
+className="menu-item logout-item"
+onClick={logout}
+>
+
+<FaSignOutAlt className="menu-icon"/>
+
+<span>Logout</span>
+
+</div>
+
 </div>
 
 </div>
 
-    );
+</div>
+
+);
 
 }

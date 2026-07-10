@@ -67,4 +67,27 @@ emailService.sendHtmlEmail(
         public List<User> getAllUsers() {
             return repository.findAll();
         }
+        public User updateProfile(String email, User updatedUser) {
+
+    User user = repository.findByEmail(email);
+
+    if(user == null){
+        return null;
+    }
+
+    user.setName(updatedUser.getName());
+    user.setPhone(updatedUser.getPhone());
+    user.setAddress(updatedUser.getAddress());
+
+    // Update password only if entered
+    if(updatedUser.getPassword()!=null &&
+       !updatedUser.getPassword().isBlank()){
+
+        user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+
+    }
+
+    return repository.save(user);
+
+}
 }

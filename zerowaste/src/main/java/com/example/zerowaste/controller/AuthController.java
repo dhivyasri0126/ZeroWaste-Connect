@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001","http://127.0.0.1:3000","http://127.0.0.1:3001"})
 public class AuthController {
 
     @Autowired
@@ -55,6 +55,15 @@ public User profile(Authentication authentication){
     String email=authentication.getName();
 
     return repository.findByEmail(email);
+
+}
+@PutMapping("/updateprofile")
+public User updateProfile(@RequestBody User updatedUser,
+                          Authentication authentication) {
+
+    String email = authentication.getName();
+
+    return service.updateProfile(email, updatedUser);
 
 }
 }

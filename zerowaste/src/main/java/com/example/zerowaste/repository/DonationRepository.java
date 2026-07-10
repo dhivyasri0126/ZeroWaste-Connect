@@ -12,5 +12,8 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
         String donorEmail,
         String status
 );
+long countByDonorEmail(String donorEmail);
+
+long countByDonorEmailAndStatus(String donorEmail, String status);
 
 }
