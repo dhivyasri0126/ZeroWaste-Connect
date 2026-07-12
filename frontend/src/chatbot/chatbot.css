@@ -1,0 +1,197 @@
+.zwc-chatbotRoot{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:9999;
+}
+
+.zwc-chatbotButton{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  border:0;
+  background:linear-gradient(135deg,#18c964,#0aa34a);
+  box-shadow:0 12px 30px rgba(0,0,0,.18),0 0 0 6px rgba(24,201,100,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.zwc-chatbotButton:hover{transform:translateY(-2px); box-shadow:0 16px 36px rgba(0,0,0,.22),0 0 0 8px rgba(24,201,100,.22);}
+.zwc-chatbotIcon{color:#fff; display:flex; align-items:center; justify-content:center;}
+
+.zwc-chatbotWindowWrap{
+  position:absolute;
+  right:0;
+  bottom:72px;
+  width:360px;
+  max-width:calc(100vw - 28px);
+  transform:translateY(14px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s ease, transform .22s ease;
+}
+
+.zwc-chatbotWindowWrap.open{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.zwc-chatbotWindow{
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 26px 80px rgba(0,0,0,.32);
+}
+
+.zwc-chatbotHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 14px;
+  background:linear-gradient(135deg, rgba(24,201,100,.22), rgba(0,0,0,0));
+  border-bottom:1px solid rgba(255,255,255,.18);
+}
+
+.zwc-chatbotHeaderLeft{display:flex; align-items:center; gap:10px;}
+.zwc-chatbotHeaderDot{
+  width:10px; height:10px; border-radius:50%;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  box-shadow:0 0 0 6px rgba(34,197,94,.16);
+}
+
+.zwc-chatbotTitle{font-weight:800; color:#ecfdf5; letter-spacing:.2px; font-size:14px;}
+.zwc-chatbotSubtitle{color:rgba(236,253,245,.75); font-size:12px; margin-top:2px;}
+
+.zwc-chatbotMiniBtn{
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  color:#eafff3;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  cursor:pointer;
+  transition:background .16s ease, transform .16s ease;
+}
+.zwc-chatbotMiniBtn:hover{background:rgba(255,255,255,.14); transform:translateY(-1px);}
+
+.zwc-chatbotBody{
+  height:360px;
+  max-height:48vh;
+  padding:14px;
+  overflow:auto;
+  scroll-behavior:smooth;
+}
+
+.zwc-chatRow{display:flex; margin:10px 0;}
+.zwc-chatRow.user{justify-content:flex-end;}
+.zwc-chatRow.ai{justify-content:flex-start;}
+
+.zwc-chatBubble{
+  max-width:86%;
+  border-radius:16px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.22);
+}
+
+.zwc-chatBubble.userBubble{
+  background:linear-gradient(135deg, rgba(24,201,100,.26), rgba(24,201,100,.12));
+  box-shadow:inset 0 0 0 1px rgba(24,201,100,.18);
+}
+
+.zwc-chatBubble.aiBubble{
+  background:rgba(255,255,255,.08);
+}
+
+.zwc-chatText{color:rgba(240,255,248,.95); white-space:pre-wrap; line-height:1.35; font-size:13.5px;}
+.zwc-chatTs{color:rgba(236,253,245,.62); font-size:11px; margin-top:6px; text-align:right;}
+
+.zwc-chatbotFooter{
+  padding:12px 12px 14px;
+  border-top:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(0deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+}
+
+.zwc-chatInputRow{display:flex; gap:10px; align-items:center;}
+.zwc-chatInput{
+  flex:1;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.12);
+  padding:10px 12px;
+  color:#eafff3;
+  outline:none;
+  font-size:13px;
+}
+.zwc-chatInput::placeholder{color:rgba(236,253,245,.55);}
+.zwc-chatInput:disabled{opacity:.6; cursor:not-allowed;}
+
+.zwc-chatSendBtn{
+  border-radius:14px;
+  border:0;
+  padding:10px 14px;
+  cursor:pointer;
+  color:#052e16;
+  font-weight:800;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  box-shadow:0 10px 24px rgba(34,197,94,.25);
+  transition:transform .16s ease, filter .16s ease;
+}
+.zwc-chatSendBtn:hover{transform:translateY(-1px); filter:saturate(1.05);}
+.zwc-chatSendBtn:disabled{opacity:.6; cursor:not-allowed;}
+
+.zwc-chatbotFooterHint{margin-top:10px; font-size:11.5px; color:rgba(236,253,245,.66);}
+
+.zwc-typingRow{display:flex; align-items:flex-end; justify-content:flex-start; gap:10px;}
+.zwc-typingBubble{
+  display:flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:16px;
+  padding:10px 12px;
+}
+.zwc-typingDots{display:inline-flex; gap:6px; margin-right:2px;}
+.zwc-typingDots span{
+  width:6px; height:6px; border-radius:50%;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  opacity:.35;
+  animation:zwcDot 1s infinite ease-in-out;
+}
+.zwc-typingDots span:nth-child(2){animation-delay:.12s;}
+.zwc-typingDots span:nth-child(3){animation-delay:.24s;}
+@keyframes zwcDot{
+  0%,100%{transform:translateY(0); opacity:.35;}
+  50%{transform:translateY(-4px); opacity:.95;}
+}
+.zwc-typingText{color:rgba(240,255,248,.9); font-size:13px; font-weight:600;}
+.zwc-typingTs{color:rgba(236,253,245,.62); font-size:11px; margin-bottom:6px;}
+
+.zwc-welcomeWrap{padding-top:4px;}
+.zwc-welcomeTitle{font-weight:900; color:#ecfdf5; font-size:16px; margin-bottom:6px;}
+.zwc-welcomeText{color:rgba(240,255,248,.92); font-size:13.5px; line-height:1.35; margin-top:4px;}
+.zwc-quickButtons{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.zwc-quickBtn{
+  border:1px solid rgba(255,255,255,.25);
+  background:linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.12));
+  color:#eafff3;
+  border-radius:999px;
+  padding:8px 10px;
+  font-weight:700;
+  font-size:12px;
+  cursor:pointer;
+  transition:transform .14s ease, background .14s ease;
+}
+.zwc-quickBtn:hover{transform:translateY(-1px); background:linear-gradient(135deg, rgba(34,197,94,.36), rgba(34,197,94,.15));}
+.zwc-welcomeFooter{margin-top:12px; font-size:11.8px; color:rgba(236,253,245,.66);}
+
+@media (max-width: 480px){
+  .zwc-chatbotRoot{right:12px; bottom:12px;}
+  .zwc-chatbotWindowWrap{width:330px; bottom:66px;}
+  .zwc-chatbotBody{height:340px; max-height:52vh;}
+}
+
