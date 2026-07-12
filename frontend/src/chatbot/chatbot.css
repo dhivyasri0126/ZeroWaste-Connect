@@ -108,8 +108,13 @@
   background:rgba(255,255,255,.08);
 }
 
-.zwc-chatText{color:rgba(240,255,248,.95); white-space:pre-wrap; line-height:1.35; font-size:13.5px;}
-.zwc-chatTs{color:rgba(236,253,245,.62); font-size:11px; margin-top:6px; text-align:right;}
+.zwc-chatText{color:rgba(5,46,22,.95); white-space:pre-wrap; line-height:1.35; font-size:13.5px;}
+.zwc-chatTs{color:rgba(5,46,22,.62); font-size:11px; margin-top:6px; text-align:right;}
+
+/* Light-theme readability fallback: ensure dark text is always visible */
+.zwc-chatBubble.aiBubble .zwc-chatText{color:#05361c;}
+.zwc-chatBubble.aiBubble .zwc-chatTs{color:rgba(5,54,28,.62);}
+
 
 .zwc-chatbotFooter{
   padding:12px 12px 14px;
