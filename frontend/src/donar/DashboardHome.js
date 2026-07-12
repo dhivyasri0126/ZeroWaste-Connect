@@ -15,6 +15,8 @@ import {
   TableHeader, TableRow
 } from '../components/ui/table';
 
+import AIChatbot from '../chatbot/AIChatbot';
+
 /* ── Stat Card ─────────────────────────────────────── */
 function StatCard({ title, value, icon: Icon, color, loading }) {
   if (loading) {
@@ -255,6 +257,8 @@ export default function DashboardHome() {
           </CardContent>
         </Card>
       </div>
+
+      <AIChatbot />
     </div>
   );
 }

@@ -12,6 +12,8 @@ import {
   TableHeader, TableRow
 } from '../components/ui/table';
 
+import AIChatbot from '../chatbot/AIChatbot';
+
 function StatCard({ title, value, icon: Icon, color, loading }) {
   if (loading) {
     return (
@@ -162,6 +164,8 @@ export default function RecipientHome() {
           )}
         </CardContent>
       </Card>
+
+      <AIChatbot />
     </div>
   );
 }
