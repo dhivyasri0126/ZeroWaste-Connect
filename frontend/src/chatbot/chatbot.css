@@ -111,9 +111,113 @@
 .zwc-chatText{color:rgba(5,46,22,.95); white-space:pre-wrap; line-height:1.35; font-size:13.5px;}
 .zwc-chatTs{color:rgba(5,46,22,.62); font-size:11px; margin-top:6px; text-align:right;}
 
-/* Light-theme readability fallback: ensure dark text is always visible */
-.zwc-chatBubble.aiBubble .zwc-chatText{color:#05361c;}
-.zwc-chatBubble.aiBubble .zwc-chatTs{color:rgba(5,54,28,.62);}
+/* Theme support without relying on global app CSS:
+   - If your app sets `data-theme="light"` / `data-theme="dark"` on <html> or <body>, this will follow it.
+   - Otherwise it keeps the default (dark) styling.
+*/
+
+.zwc-chatbotRoot .zwc-chatThemeTransition,
+.zwc-chatbotRoot *{
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, backdrop-filter .2s ease;
+}
+
+/* Default: Dark theme */
+.zwc-chatbotWindow{
+  background:rgba(17,24,39,.62);
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.zwc-chatbotHeader{
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+.zwc-chatBubble{
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.zwc-chatBubble.aiBubble{
+  background:rgba(255,255,255,.06);
+}
+
+.zwc-chatText{
+  color:rgba(255,255,255,.92);
+}
+
+.zwc-chatTs{
+  color:rgba(255,255,255,.62);
+}
+
+.zwc-chatbotFooter{
+  border-top:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(0deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+}
+
+.zwc-chatInput{
+  background:rgba(0,0,0,.20);
+  border:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.92);
+}
+
+.zwc-chatInput::placeholder{color:rgba(255,255,255,.45);}
+
+/* Light theme override */
+html[data-theme="light"] .zwc-chatbotWindow,
+body[data-theme="light"] .zwc-chatbotWindow{
+  background:rgba(255,255,255,.55);
+  border:1px solid rgba(107,114,128,.35); /* light gray */
+}
+
+html[data-theme="light"] .zwc-chatbotHeader,
+body[data-theme="light"] .zwc-chatbotHeader{
+  border-bottom:1px solid rgba(107,114,128,.28);
+}
+
+html[data-theme="light"] .zwc-chatBubble,
+body[data-theme="light"] .zwc-chatBubble{
+  border:1px solid rgba(107,114,128,.28);
+}
+
+html[data-theme="light"] .zwc-chatBubble.aiBubble,
+body[data-theme="light"] .zwc-chatBubble.aiBubble{
+  background:rgba(255,255,255,.72);
+}
+
+html[data-theme="light"] .zwc-chatText,
+body[data-theme="light"] .zwc-chatText{
+  color:rgba(5,46,22,.95);
+}
+
+html[data-theme="light"] .zwc-chatTs,
+body[data-theme="light"] .zwc-chatTs{
+  color:rgba(5,46,22,.62);
+}
+
+html[data-theme="light"] .zwc-chatbotFooter,
+body[data-theme="light"] .zwc-chatbotFooter{
+  border-top:1px solid rgba(107,114,128,.28);
+  background:linear-gradient(0deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+}
+
+html[data-theme="light"] .zwc-chatInput,
+body[data-theme="light"] .zwc-chatInput{
+  background:rgba(255,255,255,.80);
+  border:1px solid rgba(107,114,128,.30);
+  color:rgba(5,46,22,.95);
+}
+
+html[data-theme="light"] .zwc-chatInput::placeholder,
+body[data-theme="light"] .zwc-chatInput::placeholder{
+  color:rgba(5,46,22,.50);
+}
+
+/* If your app toggles a class instead of data-theme */
+html.light .zwc-chatbotWindow,
+body.light .zwc-chatbotWindow,
+html[data-theme="Light"] .zwc-chatbotWindow,
+body[data-theme="Light"] .zwc-chatbotWindow{
+  /* keep same as light override above */
+}
+
 
 
 .zwc-chatbotFooter{
