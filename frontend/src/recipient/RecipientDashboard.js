@@ -1,152 +1,53 @@
-import React,{useState} from "react";
-import {useNavigate} from "react-router-dom";
-
-import "../css/dashboard.css";
-
-import RecipientHome from "./RecipientHome";
-import Profile from "../donar/Profile";
-import Settings from "../donar/Settings";
-import AvailableDonations from "./AvailableDonations";
-import MyRequests from "./MyRequests";
-import RequestHistory from "../recipient/RequestHistory";
-
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-FaBars,
-FaUserCircle,
-FaGift,
-FaInbox,
-FaHistory,
-FaSignOutAlt
-} from "react-icons/fa";
-import { FaCog } from "react-icons/fa";
-import {MdDashboard} from "react-icons/md";
+  LayoutDashboard, User, Gift, Inbox, History, Settings
+} from 'lucide-react';
 
-export default function RecipientDashboard(){
+import DashboardLayout from '../components/layout/DashboardLayout';
+import RecipientHome from './RecipientHome';
+import Profile from '../donar/Profile';
+import SettingsPage from '../donar/Settings';
+import AvailableDonations from './AvailableDonations';
+import MyRequests from './MyRequests';
+import RequestHistory from './RequestHistory';
 
-const navigate=useNavigate();
+const NAV_ITEMS = [
+  { id: 'dashboard',  label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'profile',    label: 'My Profile', icon: User },
+  { id: 'available',  label: 'Available Donations', icon: Gift },
+  { id: 'requests',   label: 'My Requests', icon: Inbox },
+  { id: 'history',    label: 'Request History', icon: History },
+  { id: 'settings',   label: 'Settings', icon: Settings },
+];
 
-const [page,setPage]=useState("dashboard");
+export default function RecipientDashboard() {
+  const navigate = useNavigate();
+  const [page, setPage] = useState('dashboard');
 
-const [menuOpen,setMenuOpen]=useState(false);
+  // Auth guard — redirect if no token
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, [navigate]);
 
-function logout(){
+  const pageMap = {
+    dashboard: <RecipientHome />,
+    profile: <Profile />,
+    available: <AvailableDonations />,
+    requests: <MyRequests />,
+    history: <RequestHistory />,
+    settings: <SettingsPage />,
+  };
 
-localStorage.clear();
-
-navigate("/");
-
-}
-
-return(
-
-<div className="dashboard">
-
-<nav className="navbar">
-
-<div className="nav-left">
-
-<FaBars
-className="menu-btn"
-onClick={()=>setMenuOpen(!menuOpen)}
-/>
-
-<h2>🌱 ZeroWaste Connect</h2>
-
-</div>
-
-<button
-className="logout-btn"
-onClick={logout}
->
-
-<FaSignOutAlt/>
-
-Logout
-
-</button>
-
-</nav>
-
-<div className="main">
-
-<div className={menuOpen?"sidebar active":"sidebar"}>
-
-<ul>
-
-<li onClick={()=>{setPage("dashboard");setMenuOpen(false)}}>
-
-<MdDashboard className="icon"/>
-
-<span>Dashboard</span>
-
-</li>
-
-<li onClick={()=>{setPage("profile");setMenuOpen(false)}}>
-
-<FaUserCircle className="icon"/>
-
-<span>My Profile</span>
-
-</li>
-
-<li onClick={()=>{setPage("available");setMenuOpen(false)}}>
-
-<FaGift className="icon"/>
-
-<span>Available Donations</span>
-
-</li>
-
-<li onClick={()=>{setPage("requests");setMenuOpen(false)}}>
-
-<FaInbox className="icon"/>
-
-<span>My Requests</span>
-
-</li>
-
-<li onClick={()=>{setPage("history");setMenuOpen(false)}}>
-
-<FaHistory className="icon"/>
-
-<span>Request History</span>
-
-</li>
-<li onClick={() => {
-    setPage("settings");
-    setMenuOpen(false);
-}}>
-
-<FaCog className="icon"/>
-
-<span>Settings</span>
-
-</li>
-
-</ul>
-
-</div>
-
-<div className="content">
-
-{page==="dashboard" && <RecipientHome/>}
-
-{page==="profile" && <Profile/>}
-
-{page==="available" && <AvailableDonations/>}
-
-{page==="requests" && <MyRequests/>}
-
-{page==="history" && <RequestHistory/>}
-
-{page==="settings" && <Settings />}
-
-</div>
-
-</div>
-
-</div>
-
-);
-
+  return (
+    <DashboardLayout
+      sidebarItems={NAV_ITEMS}
+      activePage={page}
+      onNavigate={setPage}
+    >
+      {pageMap[page] || <RecipientHome />}
+    </DashboardLayout>
+  );
 }

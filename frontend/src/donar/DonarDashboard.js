@@ -1,252 +1,57 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../css/dashboard.css";
-import DashboardHome from "../donar/DashboardHome";
-import Profile from "./Profile";
-import AddDonation from "./AddDonation";
-import MyDonations from "../pages/MyDonations";
-// import MyRequests from "../pages/MyRequests";
-import DonationHistory from "../donar/DonationHistory";
-import ReceivedRequest from "../donar/ReceivedRequest";
-import Settings from "./Settings";
-
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  FaBars,FaCog,
-  FaUserCircle,
-  FaGift,
-  FaPlusCircle,
-  FaBoxOpen,
-  FaInbox,
-  FaHistory,
-  FaSignOutAlt
-} from "react-icons/fa";
+  LayoutDashboard, User, PlusCircle, Package,
+  Inbox, History, Settings
+} from 'lucide-react';
 
-import { MdDashboard } from "react-icons/md";
-import { HiClipboardDocumentList } from "react-icons/hi2";
+import DashboardLayout from '../components/layout/DashboardLayout';
+import DashboardHome from './DashboardHome';
+import Profile from './Profile';
+import AddDonation from './AddDonation';
+import MyDonations from '../pages/MyDonations';
+import DonationHistory from './DonationHistory';
+import ReceivedRequest from './ReceivedRequest';
+import SettingsPage from './Settings';
+
+const NAV_ITEMS = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'profile',   label: 'My Profile', icon: User },
+  { id: 'add',       label: 'Add Donation', icon: PlusCircle },
+  { id: 'mydonations', label: 'My Donations', icon: Package },
+  { id: 'received',  label: 'Received Requests', icon: Inbox },
+  { id: 'history',   label: 'Donation History', icon: History },
+  { id: 'settings',  label: 'Settings', icon: Settings },
+];
 
 export default function DonarDashboard() {
+  const navigate = useNavigate();
+  const [page, setPage] = useState('dashboard');
 
-    const navigate = useNavigate();
-    const [requests,setRequests] =useState("");
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    const [page, setPage] = useState("dashboard");
-
-    const [donations, setDonations] = useState([]);
-
-    useEffect(() => {
-        loadDonations();
-    }, []);
-
-    async function loadDonations() {
-
-        try {
-
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                navigate("/");
-                return;
-            }
-
-            const response = await fetch(
-                "http://localhost:8081/donation/all",
-                {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Unable to fetch donations");
-            }
-const data = await response.json();
-
-console.log("Received Requests API Response:", data);
-
-setRequests(data);
-
-            setDonations(data);
-
-        } catch (err) {
-
-            console.log(err);
-
-            alert("Unable to connect to server");
-
-        }
-
+  // Auth guard — redirect if no token
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/');
     }
-
-    function logout() {
-
-        localStorage.clear();
-
-        navigate("/");
-
-    }
-
-    return (
-
-<div className="dashboard">
-
-{/* ================= NAVBAR ================= */}
-
-<nav className="navbar">
-
-<div className="nav-left">
-
-<FaBars
-className="menu-btn"
-onClick={() => setMenuOpen(!menuOpen)}
-/>
-
-<h2>🌱 ZeroWaste Connect</h2>
-
-</div>
-
-<button className="logout-btn" onClick={logout}>
-
-<FaSignOutAlt />
-
-Logout
-
-</button>
-
-</nav>
-
-{/* ================= MAIN ================= */}
-
-<div className="main">
-
-{/* ================= SIDEBAR ================= */}
-
-<div className={menuOpen ? "sidebar active" : "sidebar"}>
-
-<ul>
-
-<li onClick={() => {setPage("dashboard"); setMenuOpen(false)}}>
-    <MdDashboard className="icon"/>
-    <span>Dashboard</span>
-</li>
-
-<li onClick={() => {setPage("profile"); setMenuOpen(false)}}>
-    <FaUserCircle className="icon"/>
-    <span>My Profile</span>
-</li>
-
-<li onClick={() => {setPage("add"); setMenuOpen(false)}}>
-    <FaPlusCircle className="icon"/>
-    <span>Add Donation</span>
-</li>
-
-<li onClick={() => {setPage("mydonations"); setMenuOpen(false)}}>
-    <FaBoxOpen className="icon"/>
-    <span>My Donations</span>
-</li>
-
-<li onClick={() => {setPage("received"); setMenuOpen(false)}}>
-    <HiClipboardDocumentList className="icon"/>
-    <span>Received Requests</span>
-</li>
-
-<li onClick={() => {setPage("history"); setMenuOpen(false)}}>
-    <FaHistory className="icon"/>
-    <span>Donation History</span>
-</li>
-<li onClick={()=>{setPage("settings");setMenuOpen(false)}}>
-
-<FaCog className="icon"/>
-
-<span>Settings</span>
-
-</li>
-
-</ul>
-
-</div>
-
-{/* ================= CONTENT ================= */}
-
-<div className="content">
-
-{/* Dashboard
-{page==="dashboard" && <DashboardHome/>} */}
-
-{/* Profile */}
-
-{/* {page==="profile" &&(
-
-<div className="profile-card">
-
-<h2>👤 My Profile</h2>
-
-<p>Profile details will appear here.</p>
-
-</div>
-
-)} */}
-
-{/* Available Donations */}
-
-{page==="available" &&(
-
-<>
-
-<h2>Available Donations</h2>
-
-<div className="card-container">
-
-{donations.map(item=>(
-
-<div className="card" key={item.id}>
-
-<h3>{item.foodName}</h3>
-
-<p><b>Category:</b> {item.category}</p>
-
-<p><b>Quantity:</b> {item.quantity}</p>
-
-<p><b>Address:</b> {item.address}</p>
-
-<p><b>Status:</b> {item.status}</p>
-
-<button>Request Food</button>
-
-</div>
-
-))}
-
-</div>
-
-</>
-
-)}
-
-{/* Other Pages */}
-{page==="dashboard" && <DashboardHome />}
-
-{page==="profile" && <Profile />}
-
-{page==="add" && <AddDonation />}
-
-{page==="mydonations" && <MyDonations />}
-
-{page==="received" && <ReceivedRequest />}
-
-{page==="history" && <DonationHistory />} 
-
-{page==="settings" && <Settings/>}
-
-</div>
-
-</div>
-
-</div>
-
-    );
-
+  }, [navigate]);
+
+  const pageMap = {
+    dashboard: <DashboardHome />,
+    profile: <Profile />,
+    add: <AddDonation />,
+    mydonations: <MyDonations />,
+    received: <ReceivedRequest />,
+    history: <DonationHistory />,
+    settings: <SettingsPage />,
+  };
+
+  return (
+    <DashboardLayout
+      sidebarItems={NAV_ITEMS}
+      activePage={page}
+      onNavigate={setPage}
+    >
+      {pageMap[page] || <DashboardHome />}
+    </DashboardLayout>
+  );
 }
