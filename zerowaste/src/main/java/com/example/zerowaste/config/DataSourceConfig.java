@@ -31,6 +31,7 @@ public class DataSourceConfig {
         // Parse and convert DATABASE_URL to JDBC format
         String jdbcUrl = convertToJdbcUrl(databaseUrl);
         config.setJdbcUrl(jdbcUrl);
+        config.setDriverClassName("org.postgresql.Driver");
         
         // Always try to extract credentials from URL first (for postgres:// format)
         boolean credentialsExtracted = false;
