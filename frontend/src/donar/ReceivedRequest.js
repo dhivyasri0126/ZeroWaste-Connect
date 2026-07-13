@@ -9,6 +9,7 @@ import {
   TableHeader, TableRow
 } from '../components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import API_BASE_URL from '../config/api';
 
 function StatusBadge({ status }) {
   const map = {
@@ -32,7 +33,7 @@ export default function ReceivedRequests() {
   async function loadRequests() {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8081/request/received', {
+      const response = await fetch(`${API_BASE_URL}/request/received`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Unable to fetch requests');
@@ -49,7 +50,7 @@ export default function ReceivedRequests() {
     setActionId(id + '-accept');
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:8081/request/accept/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/request/accept/${id}`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -70,7 +71,7 @@ export default function ReceivedRequests() {
     setActionId(id + '-reject');
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:8081/request/reject/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/request/reject/${id}`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` },
       });

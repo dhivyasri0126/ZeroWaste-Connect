@@ -10,6 +10,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Switch } from '../components/ui/switch';
 import { cn } from '../lib/utils';
+import API_BASE_URL from '../config/api';
 
 /* ── Theme Option Button ─────────────────────────────── */
 function ThemeOption({ value, label, icon: Icon, current, onChange }) {
@@ -87,7 +88,7 @@ export default function Settings() {
     setPwLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8081/auth/changepassword', {
+      const response = await fetch(`${API_BASE_URL}/auth/changepassword`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

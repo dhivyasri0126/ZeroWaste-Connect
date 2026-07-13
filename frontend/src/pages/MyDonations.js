@@ -12,6 +12,7 @@ import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Skeleton } from '../components/ui/skeleton';
 import { Card, CardContent } from '../components/ui/card';
+import API_BASE_URL from '../config/api';
 
 function StatusBadge({ status }) {
   const variantMap = {
@@ -56,7 +57,7 @@ export default function MyDonations() {
 
   async function loadMyDonations() {
     try {
-      const response = await fetch('http://localhost:8081/donation/my', {
+      const response = await fetch(`${API_BASE_URL}/donation/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -78,7 +79,7 @@ export default function MyDonations() {
     setDialogOpen(false);
     setDeletingId(id);
     try {
-      const response = await fetch(`http://localhost:8081/donation/delete/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/donation/delete/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

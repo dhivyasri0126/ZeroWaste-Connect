@@ -11,6 +11,7 @@ import {
   Table, TableBody, TableCell, TableHead,
   TableHeader, TableRow
 } from '../components/ui/table';
+import API_BASE_URL from '../config/api';
 
 function StatCard({ title, value, icon: Icon, color, loading }) {
   if (loading) {
@@ -66,7 +67,7 @@ export default function RecipientHome() {
   async function loadRequests() {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8081/request/my', {
+      const response = await fetch(`${API_BASE_URL}/request/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();

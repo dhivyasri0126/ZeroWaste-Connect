@@ -9,6 +9,7 @@ import { Textarea } from '../components/ui/textarea';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '../components/ui/select';
+import API_BASE_URL from '../config/api';
 
 function FormRow({ label, id, required, hint, error, children }) {
   return (
@@ -62,7 +63,7 @@ export default function AddDonation() {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8081/donation/add', {
+      const response = await fetch(`${API_BASE_URL}/donation/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

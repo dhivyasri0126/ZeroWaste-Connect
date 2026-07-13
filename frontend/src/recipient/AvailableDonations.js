@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent } from '../components/ui/card';
 import { Skeleton } from '../components/ui/skeleton';
+import API_BASE_URL from '../config/api';
 
 function DonationCardSkeleton() {
   return (
@@ -46,7 +47,7 @@ export default function AvailableDonations() {
   async function loadDonations() {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8081/donation/all', {
+      const response = await fetch(`${API_BASE_URL}/donation/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -62,7 +63,7 @@ export default function AvailableDonations() {
     setRequestingId(id);
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:8081/request/add/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/request/add/${id}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });

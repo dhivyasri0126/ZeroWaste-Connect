@@ -8,6 +8,7 @@ import {
   TableHeader, TableRow
 } from '../components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import API_BASE_URL from '../config/api';
 
 export default function DonationHistory() {
   const [history, setHistory] = useState([]);
@@ -20,7 +21,7 @@ export default function DonationHistory() {
   async function loadHistory() {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8081/donation/history', {
+      const response = await fetch(`${API_BASE_URL}/donation/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Unable to fetch history');

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
 import { Skeleton } from '../components/ui/skeleton';
+import API_BASE_URL from '../config/api';
 
 function ProfileField({ icon: Icon, label, value }) {
   return (
@@ -34,7 +35,7 @@ export default function Profile() {
   async function loadProfile() {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:8081/auth/profile', {
+      const response = await fetch(`${API_BASE_URL}/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Unable to fetch profile');

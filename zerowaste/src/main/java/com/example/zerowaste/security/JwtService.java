@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -12,11 +13,13 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    // Secret Key
-    private static final String SECRET =
-            "ThisIsMySecretKeyForZeroWasteConnectProject123456";
+    @Value("${jwt.secret:ThisIsMySecretKeyForZeroWasteConnectProject123456}")
+    private String secret;
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    @Value("${jwt.expiration:86400000}")
+    private long expiration;
+
+    private final Key key = Keys.hmacShaKeyFor(secret.getBytes());
 
     // Generate JWT Token
     public String generateToken(String email) {
@@ -24,7 +27,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
                 .compact();
     }

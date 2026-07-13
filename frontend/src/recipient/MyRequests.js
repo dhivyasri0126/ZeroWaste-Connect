@@ -9,6 +9,7 @@ import {
   TableHeader, TableRow
 } from '../components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import API_BASE_URL from '../config/api';
 
 function StatusBadge({ status }) {
   const map = {
@@ -32,7 +33,7 @@ export default function MyRequests() {
   async function loadRequests() {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:8081/request/my', {
+      const response = await fetch(`${API_BASE_URL}/request/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -48,7 +49,7 @@ export default function MyRequests() {
     setConfirmingId(id);
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:8081/request/complete/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/request/complete/${id}`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -14,6 +14,7 @@ import {
   Table, TableBody, TableCell, TableHead,
   TableHeader, TableRow
 } from '../components/ui/table';
+import API_BASE_URL from '../config/api';
 
 /* ── Stat Card ─────────────────────────────────────── */
 function StatCard({ title, value, icon: Icon, color, loading }) {
@@ -102,7 +103,7 @@ export default function DashboardHome() {
   async function loadStats() {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://localhost:8081/dashboard/stats', {
+      const res = await fetch(`${API_BASE_URL}/dashboard/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) setStats(await res.json());
@@ -112,7 +113,7 @@ export default function DashboardHome() {
   async function loadHistory() {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://localhost:8081/donation/history', {
+      const res = await fetch(`${API_BASE_URL}/donation/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) setHistory(await res.json());

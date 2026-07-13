@@ -8,6 +8,7 @@ import {
   TableHeader, TableRow
 } from '../components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import API_BASE_URL from '../config/api';
 
 function StatusBadge({ status }) {
   const map = { COMPLETED: 'info', REJECTED: 'destructive' };
@@ -25,7 +26,7 @@ export default function RequestHistory() {
   async function loadHistory() {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8081/request/my', {
+      const response = await fetch(`${API_BASE_URL}/request/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();

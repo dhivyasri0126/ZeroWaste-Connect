@@ -10,6 +10,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { cn } from '../lib/utils';
+import API_BASE_URL from '../config/api';
 
 /* ── Framer Motion variants ──────────────────────────── */
 const panelVariants = {
@@ -92,7 +93,7 @@ function LoginForm({ onSwitch }) {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8081/auth/login', {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -104,7 +105,7 @@ function LoginForm({ onSwitch }) {
       }
       localStorage.setItem('token', token);
 
-      const profileRes = await fetch('http://localhost:8081/auth/profile', {
+      const profileRes = await fetch(`${API_BASE_URL}/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!profileRes.ok) {
@@ -228,7 +229,7 @@ function RegisterForm({ onSwitch }) {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8081/auth/register', {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
