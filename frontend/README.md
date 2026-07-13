@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# ZeroWaste Connect - Frontend
+
+React frontend for ZeroWaste Connect platform. Built with Create React App, React Router, and Tailwind CSS.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -27,44 +29,80 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Environment Variables
 
-### `npm run eject`
+Create a `.env` file in the root directory (see `.env.example` for reference):
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```env
+REACT_APP_API_BASE_URL=http://localhost:8081
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `REACT_APP_API_BASE_URL`: The base URL for the backend API. Defaults to `http://localhost:8081` if not set.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Vercel Deployment
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+This frontend is configured for deployment on Vercel.
+
+### Vercel Configuration
+
+- **Framework Preset**: Create React App
+- **Build Command**: `npm run build`
+- **Output Directory**: `build`
+- **Install Command**: `npm install`
+- **Required Environment Variables**: `REACT_APP_API_BASE_URL`
+
+### Deployment Steps
+
+1. **Push your code to a Git repository** (GitHub, GitLab, or Bitbucket)
+
+2. **Import your project in Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import your repository
+
+3. **Configure Project Settings**:
+   - **Framework Preset**: Create React App (auto-detected)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `build`
+   - **Install Command**: `npm install`
+
+4. **Add Environment Variables**:
+   - Go to Settings > Environment Variables
+   - Add `REACT_APP_API_BASE_URL` with your production backend URL
+   - Example: `https://your-backend-api.com`
+
+5. **Deploy**:
+   - Click "Deploy"
+   - Vercel will automatically build and deploy your application
+
+### Client-Side Routing
+
+The `vercel.json` configuration ensures React Router works correctly on page refresh by redirecting all routes to `index.html`.
+
+### Static Asset Caching
+
+Static assets in `/static/` are cached with a 1-year cache-control header for optimal performance.
+
+## Local Development
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create a `.env` file with your API configuration:
+```bash
+cp .env.example .env
+```
+
+3. Start the development server:
+```bash
+npm start
+```
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Create React App Documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+- [React Documentation](https://reactjs.org/)
+- [React Router Documentation](https://reactrouter.com/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
